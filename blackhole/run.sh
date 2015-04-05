@@ -45,7 +45,7 @@ DNSSERVER="unbound" # bind or unbound
 
 ## Delete all downloaded tmp files?
 DELETE=1
-DOWNLOAD_FILES=0
+DOWNLOAD_FILES=1
 
 ############################################################
 ############	END OF CONFIGURABLE OPTIONS ################
