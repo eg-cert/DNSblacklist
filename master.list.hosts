@@ -1,0 +1,10 @@
+$TTL    600
+@                       1D IN SOA       localhost root (
+                                        42              ; serial
+                                        3H              ; refresh
+                                        15M             ; retry
+                                        1W              ; expiry
+                                        1D )            ; minimum
+
+                        1D IN NS        @
+                        5 IN A          0.0.0.0; this should be your sink hole ip
