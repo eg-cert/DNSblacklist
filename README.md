@@ -40,14 +40,94 @@ This include domain parser from various malicious domain provider
 The main script is preparation.sh, which generate a configuration 
 file for unbound DNS server. You can choose BIND format output as well
 
-##How to use
- - Pull to /etc/unbound/
- - Edit /etc/unbound/unbound.conf according to your server environment. 
-   (Note the reference to "/etc/unbound/blackhole/blacklisted_domains.conf")
- - Run run.sh in /etc/unbound/blackhole/. 
-   Your "/etc/unbound/blackhole/blacklisted_domains.conf" will be created automatically.
- - run unbound-checkconf to verify the config file
- - Restart unbound for the config file to be effective.
+##How to use 
+### General Configurations
+- Edit blackhole/run.sh
+- Insert 1 or 0 for the desired list to be downloaded from
+~~~
+SAGADC=0
+SPYEYE=1
+ZEUSTRACKER=1
+~~~
+- Change ` DOWNLOAD_FILES=0` to `DOWNLOAD_FILES=1` in order to tell the script to download the lists , you can later disable this if you don't want to update the lists
 
+- Edit `/etc/resolv.conf` insert this line in the top of the file to resolve from yourself  **for testing**
+```
+nameserver 127.0.0.1
+```
 
-####@2014
+### Configuring it to be used with bind server
+- Install bind9 packages
+ ```bash 
+   apt-get install bind9
+   ```
+- Install dos2unix packages
+```bash
+apt-get install dos2unix
+```
+- Clone the repo
+   ```bash 
+   git clone  https://github.com/aabed/DNSblacklist.git 
+   ```
+- cd into the directory
+```bash
+cd DNSblacklist
+```
+- Edit `/etc/bind/named.conf` and append this line
+~~~
+include "/etc/bind/master.list.zones";
+~~~
+- Edit blackhole/run.sh 
+
+    modify  ` DNSSERVER="unbound" `  to ` DNSSERVER="bind" ` 
+
+- Run run.sh in blackhole/run.sh
+```bash
+bash blackhole/run.sh
+```
+- Copy the file ` ./master.list.zones` to `/etc/bind`
+```bash 
+cp master.list.zones /etc/bind
+```
+- Restart bind service
+``` bash 
+service bind9 restart
+```
+- Test the results
+```bash
+nslookup  nslookup zzzjsh.com
+```
+
+### Configuring it to be used with unbound server
+- Clone the repo
+```bash
+git clone https://github.com/aabed/DNSblacklist.git 
+```
+- Move repo contents to /etc/unbind
+```bash
+mv DNSblacklist/* /etc/unbound
+```
+- Edit /etc/unbound/unbound.conf according to your server environment
+i.e
+```
+interface: 192.168.0.1
+```
+```
+forward-addr: 8.8.8.8
+```
+
+- Run run.sh in /etc/unbound/blackhole/
+```bash
+bash /etc/unbound/run.sh
+```
+
+- "/etc/unbound/blackhole/blacklisted_domains.conf" will be created automatically.
+- Run `unbound-checkconf` to verify the config file
+- Restart unbound for the config file to be effective.
+```bash
+service unbound restart
+```
+- Test the results
+```bash
+nslookup zzzjsh.com
+```
