@@ -57,8 +57,9 @@ nameserver 127.0.0.1
 ```
 
 ### Configuring it to be used with bind server
+
 - Install bind9 packages
- ```bash 
+```bash 
    apt-get install bind9
    ```
 - Install dos2unix packages
@@ -71,19 +72,24 @@ apt-get install dos2unix
    ```
 - cd into the directory
 ```bash
-cd DNSblacklist
+cd DNSblacklist/blackhole
 ```
+- Copy the file ` ./master.list.hosts` to `/etc/bind`
+```bash 
+cp ../master.list.hosts /etc/bind
+```
+
 - Edit `/etc/bind/named.conf` and append this line
 ~~~
 include "/etc/bind/master.list.zones";
 ~~~
-- Edit blackhole/run.sh 
+- Edit run.sh 
 
     modify  ` DNSSERVER="unbound" `  to ` DNSSERVER="bind" ` 
 
-- Run run.sh in blackhole/run.sh
+- Run run.sh in run.sh
 ```bash
-bash blackhole/run.sh
+bash run.sh
 ```
 - Copy the file ` ./master.list.zones` to `/etc/bind`
 ```bash 
