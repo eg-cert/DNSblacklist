@@ -293,12 +293,13 @@ $BASE/$FOLDER_BL/whitelist_checker.sh
 ## Outputting. Either in BIND format or UNBOUND format
 ##
 if [ $DNSSERVER == "bind" ]; then
+
 	rm -rf $BASE/$FOLDER_BL/master.list.zones
 	for a in `cat $BASE/$FOLDER_BL/master.list | grep -v '#'`;  do 
-		echo "zone \"$a\" {type master; file \"/etc/bind/master.list.hosts\";};" >> $BASE/$FOLDER_BL/master.list.zones
-		uniq -uf $BASE/$FOLDER_BL/master.list.zones > $BASE/$FOLDER_BL/master.list.zones.tmp
-		mv $BASE/$FOLDER_BL/master.list.zones.tmp $BASE/$FOLDER_BL/master.list.zones
+		echo "zone \"$a\" {type master; file \"/etc/bind/master.list.hosts\";};" >> $BASE/$FOLDER_BL/master.list.zones	
 	done
+	sort -uf $BASE/$FOLDER_BL/master.list.zones > $BASE/$FOLDER_BL/master.list.zones.tmp
+	mv $BASE/$FOLDER_BL/master.list.zones.tmp $BASE/$FOLDER_BL/master.list.zones
 	echo "Configuration file generated : $BASE/$FOLDER_BL/master.list.zones"
 elif [ $DNSSERVER == 'unbound' ]; then
 	rm -rf $BASE/$FOLDER_BL/blacklisted_domains.conf
