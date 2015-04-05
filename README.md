@@ -124,7 +124,7 @@ forward-addr: 8.8.8.8
 
 - Run run.sh in /etc/unbound/blackhole/
 ```bash
-bash /etc/unbound/run.sh
+bash /etc/unbound/blackhole/run.sh
 ```
 
 - "/etc/unbound/blackhole/blacklisted_domains.conf" will be created automatically.
