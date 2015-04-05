@@ -67,7 +67,7 @@ nameserver 127.0.0.1
 apt-get install dos2unix
 ```
 - Clone the repo
-   ```bash 
+```bash 
    git clone  https://github.com/aabed/DNSblacklist.git 
    ```
 - cd into the directory
