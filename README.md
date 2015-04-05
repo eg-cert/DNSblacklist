@@ -60,7 +60,7 @@ nameserver 127.0.0.1
 
 - Install bind9 packages
 ```bash 
-   apt-get install bind9
+apt-get install bind9
    ```
 - Install dos2unix packages
 ```bash
@@ -68,7 +68,7 @@ apt-get install dos2unix
 ```
 - Clone the repo
 ```bash 
-   git clone  https://github.com/aabed/DNSblacklist.git 
+git clone  https://github.com/aabed/DNSblacklist.git 
    ```
 - cd into the directory
 ```bash
@@ -109,7 +109,7 @@ nslookup  nslookup zzzjsh.com
 ```bash
 git clone https://github.com/aabed/DNSblacklist.git 
 ```
-- Move repo contents to /etc/unbind
+- Move repo contents to /etc/unbound
 ```bash
 mv DNSblacklist/* /etc/unbound
 ```
@@ -121,6 +121,15 @@ interface: 192.168.0.1
 ```
 forward-addr: 8.8.8.8
 ```
+
+- cd into the directory
+```bash
+cd /etc/unbound/blackhole
+```
+- Edit run.sh 
+
+make sure that  ` DNSSERVER="unbound" ` 
+change `SINK_HOLE_IP=0.0.0.0` to your desired ip
 
 - Run run.sh in /etc/unbound/blackhole/
 ```bash

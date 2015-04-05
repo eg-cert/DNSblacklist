@@ -1,6 +1,6 @@
 #!/bin/bash
 today=`date "+%Y-%m-%d-%H-%M-%S"`
-
+SINK_HOLE_IP='0.0.0.0'
 BASE="/etc/unbound"
 FOLDER_BL="blackhole"
 
@@ -304,7 +304,7 @@ if [ $DNSSERVER == "bind" ]; then
 elif [ $DNSSERVER == 'unbound' ]; then
 	rm -rf $BASE/$FOLDER_BL/blacklisted_domains.conf
 	for a in `cat $BASE/$FOLDER_BL/master.list | grep -v '#'`; do
-		echo 'local-data: "'$a' A 172.16.40.226"' >> $BASE/$FOLDER_BL/blacklisted_domains.conf
+		echo 'local-data: "'$a' A '$SINK_HOLE_IP'"' >> $BASE/$FOLDER_BL/blacklisted_domains.conf
 	done
 	echo "Configuration file generated : $BASE/$FOLDER_BL/blacklisted_domains.conf"
 fi
