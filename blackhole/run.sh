@@ -58,7 +58,9 @@ fi
 ## Backing up previous files.
 mv $BASE/$FOLDER_BL/master.list $BASE/$FOLDER_BL/backup/master.list.$today.txt
 if [ $DNSSERVER == 'bind' ]; then
-        mv $BASE/$FOLDER_BL/master.list.zones $BASE/$FOLDER_BL/backup/master.list.zones.$today.txt
+		BASE='.'
+		FOLDER_BL=''
+        
 elif [ $DNSSERVER == 'unbound' ]; then
         mv $BASE/$FOLDER_BL/blacklisted_domains.conf $BASE/$FOLDER_BL/backup/blacklisted_domains.conf.$today.txt
 fi
@@ -294,6 +296,8 @@ if [ $DNSSERVER == "bind" ]; then
 	rm -rf $BASE/$FOLDER_BL/master.list.zones
 	for a in `cat $BASE/$FOLDER_BL/master.list | grep -v '#'`;  do 
 		echo "zone \"$a\" {type master; file \"/etc/bind/master.list.hosts\";};" >> $BASE/$FOLDER_BL/master.list.zones
+		uniq -uf $BASE/$FOLDER_BL/master.list.zones > $BASE/$FOLDER_BL/master.list.zones.tmp
+		mv $BASE/$FOLDER_BL/master.list.zones.tmp $BASE/$FOLDER_BL/master.list.zones
 	done
 	echo "Configuration file generated : $BASE/$FOLDER_BL/master.list.zones"
 elif [ $DNSSERVER == 'unbound' ]; then
